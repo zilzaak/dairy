@@ -685,7 +685,7 @@ if(session.getAttribute("adminuser")==null && session.getAttribute("adminpass")=
 
 	  %>
 	  <nav class="navbar navbar-expand-lg" style="margin-right:7%;margin-left:8%;margin-top:2%;border-radius:8px;background-color:#6f4e37;">
-  <a class="navbar-brand" href="#" style="margin-left:5%;color:white;">COST AND BENIFIT</a>
+  <a class="navbar-brand" href="#" style="margin-left:5%;color:white;">COST  BENIFIT</a>
    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon" style="color:white;"><b>click</b></span>
   </button> 
