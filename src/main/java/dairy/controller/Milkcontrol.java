@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import dairy.model.Collectmilk;
+import dairy.model.Firmadmin;
 import dairy.model.Sellmilk;
+import dairy.repo.Adminrepo;
 import dairy.repo.Animalrepo;
 import dairy.repo.Collectmilkrepo;
 import dairy.repo.Sellmilkrepo;
@@ -34,7 +36,9 @@ private Collectmilkrepo crr;
 private Sellmilkrepo srr;
 @Autowired
 private Animalrepo arr;	
-	
+@Autowired
+private Adminrepo adr;		
+
 @PostMapping("/collectbydate")
 public ResponseEntity<List<Collectmilk>>  collectbydate(@RequestBody String cdate) throws ParseException{
 	   SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
@@ -114,12 +118,17 @@ public ResponseEntity<List<Collectmilk>> addmilk(@RequestBody List<Collectmilk> 
 @PostMapping("/sellmilk")
 public ResponseEntity<List<Sellmilk>> sellmilk(@RequestBody List<Sellmilk> milks) throws ParseException{
 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+String mailsms="";
  for(Sellmilk sm : milks) {
+	 mailsms=mailsms+" milk rate: "+sm.getRate()+" sell to: "+sm.getBuyername()+" amount(kg) "+sm.getAmount()+" total price: "+sm.getTotalprice()+
+			 " due tk: "+sm.getDue()+" buyer phone: "+sm.getContact(); 
 	 sm.setSelldate(sdf.parse(sm.getStringselldate()));
 	 srr.save(sm);
  }
  
-
+mailsms="you have sold "+mailsms;
+Firmadmin ad=adr.findAll().get(0);
+new Sendotp().sendotp(mailsms, ad.getEmail(),"milk sell reord", ad.getEmail(), ad.getGmailspass());
  System.out.println("okkkkkkkkkkkkkkkkkkkkk");
 return new ResponseEntity<List<Sellmilk>>(milks,HttpStatus.OK) ;
 
