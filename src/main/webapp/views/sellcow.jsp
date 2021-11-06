@@ -664,15 +664,20 @@ input:hover{
 background-color:maroon; color:white;
 
 }
+
+table{
+overflow-x:scroll;
+}
+
 table th{
-word-break:break-all;
+wrap-word:break-word;
 background-color:black;
 color:white;
 padding:8px;
 }
 
 table td{
-word-break:break-all;
+wrap-word:break-word;
 background-color:white;
 color:black;
 text-align:center;
@@ -1042,13 +1047,11 @@ enter the animal id::<input type="number" ng-model="sanid" />
 </div>
 
 <br/>
-<table border="1">
+<table border="1" style="margin-left:-200px;">
 <tr ng-if="searchres.length>0">
 <th>animal id</th>
-<th>price</th>
-<th>due(tk)</th>
-<th>buyer name</th>
-<th>contact</th>
+<th>selling</th>
+<th>buyer info</th>
 <th>date</th>
 <th>details</th>
 </tr>
@@ -1058,10 +1061,18 @@ enter the animal id::<input type="number" ng-model="sanid" />
 <button   class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal" ng-click="updatesell(x)">update</button>
 <br/><br/>
 </td>
-<td>{{x.sellprice}}</td>
-<td>{{x.due}}tk</td>
-<td>{{x.buyername}}</td>
-<td>{{x.buyercontact}}</td>
+<td>
+<b>sell price(tk)</b><br/>
+{{x.sellprice}} <br/>
+<b>due tk</b><br/>
+{{x.due}}tk</td>
+
+<td>
+<b>buyer name</b><br/>
+{{x.buyername}} <br/>
+<b>phone no</b> <br/>
+{{x.buyercontact}}</td>
+
 <td>{{x.stringselldate}}</td>
 <td><button ng-click="details($index);" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#animal" >details</button></td>
 </tr>
