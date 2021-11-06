@@ -137,7 +137,7 @@ $scope.admin=response.data;
 	}
 	
 
-	$scope.admin={"email":"","password":"","code":"",:gmailspass":""};
+	$scope.admin={"email":"","password":"","code":"","gmailspass":""};
 	
 $scope.changeemail=function(){
 	
