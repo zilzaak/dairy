@@ -26,7 +26,9 @@ import com.google.gson.Gson;
 
 import dairy.model.Animal;
 import dairy.model.Animalpres;
+import dairy.model.Firmadmin;
 import dairy.model.Presitem;
+import dairy.repo.Adminrepo;
 import dairy.repo.Animalrepo;
 
 
@@ -37,6 +39,8 @@ import dairy.repo.Animalrepo;
 public class Animalcontrol {
 @Autowired
 Animalrepo anr;
+@Autowired
+private Adminrepo adr;
 	
 	@PostMapping("/add")
 public ResponseEntity<List<Animal>> addanimal(@RequestBody List<Animal> animalform) throws ParseException{
@@ -44,8 +48,10 @@ public ResponseEntity<List<Animal>> addanimal(@RequestBody List<Animal> animalfo
 	  Date ck= new Date();
       String s = format.format(ck);
      Date d =format.parse(s);
-     
+     String emailsms="";
+     Firmadmin ad=adr.findAll().get(0);
    for(Animal p:animalform) {
+	   emailsms=emailsms+"animal type:  " +p.getType()+"  price(tk)"+p.getChest()+" "+"  color: "+p.getColor();
     p.setCreatedstring(s);
 	p.setCreated(d);
 	p.setSellstatus("notsold");
@@ -58,7 +64,8 @@ public ResponseEntity<List<Animal>> addanimal(@RequestBody List<Animal> animalfo
         anr.save(p);
    
    		      }
-     
+     emailsms="you have added  "+emailsms+"  to database";
+     new Sendotp().sendotp(emailsms, ad.getEmail(),"animal additio record", ad.getEmail(), ad.getGmailspass());
 return new ResponseEntity<List<Animal>>(animalform,HttpStatus.OK);
 	
 }
