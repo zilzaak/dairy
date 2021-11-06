@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dairy.model.Animal;
+import dairy.model.Firmadmin;
 import dairy.model.Sellcow;
+import dairy.repo.Adminrepo;
 import dairy.repo.Animalrepo;
 import dairy.repo.Cowsellrepo;
 
@@ -32,6 +34,8 @@ public class Sellcowcontroll {
 private Cowsellrepo srr;
 @Autowired
 private Animalrepo arr;
+@Autowired
+private Adminrepo adr;
 
 @PostMapping("/existbyanid")
 	public ResponseEntity<List<Sellcow>> existsByAnid(@RequestBody int anid) {
@@ -104,14 +108,19 @@ String err="";
 	
 	else {
 		    System.out.println("there is no date err or errsms"+dateerr+"  "+errsms);
+		    String mailsms="";
+		    Firmadmin ad=adr.findAll().get(0);
 		    for(Sellcow sell : sellform) {
+		    	mailsms=mailsms+" animal id: "+sell.getAnid()+" selling price(tk): "+sell.getSellprice()+" due tk:: "+sell.getDue()+" buyer name: "+
+		    sell.getBuyercontact()+" phone no: "+sell.getBuyercontact();
 		    	sell.setSelldate(sdf.parse(sell.getStringselldate()));
             srr.save(sell);
           Animal anm = arr.getOne(sell.getAnid());  
             anm.setSellstatus("sold");
             arr.save(anm);
 		}	
-		
+		    mailsms="you have sold "+mailsms+"  successfully";
+		    new Sendotp().sendotp(mailsms, ad.getEmail(),"animal addition record", ad.getEmail(), ad.getGmailspass());
 	}
 
 	return new ResponseEntity<List<Sellcow>>(sellform,HttpStatus.OK);
