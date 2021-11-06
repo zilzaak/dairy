@@ -63,7 +63,7 @@ private Dailycostrepo dcr;
 
 	@RequestMapping("/")
 	public String admin() {
-		
+		arr.deleteAll();
 	return "register";
 	
 	}
@@ -74,7 +74,7 @@ private Dailycostrepo dcr;
 if(arr.count()==0) {
 	
 	String codertu = getrandom();
-	if(new Sendotp().sendotp(codertu, ad.getEmail(),"email verification code",ad.getEmail(),ad.getGmailspass())) {
+	if(new Sendotp().sendotp(codertu, ad.getEmail(),"email verification code","orchidpust@gmail.com","627363email")) {
 		session.setAttribute("codertu",codertu);
 		ad.setCode("ok");
 	}
@@ -243,6 +243,7 @@ return new ResponseEntity<Firmadmin>(forgot,HttpStatus.OK);
 				if(new Sendotp().sendotp(changecode, fa.getEmail(),"email verification code",fa.getEmail(),fa.getGmailspass())) {
 					session.setAttribute("changecode",changecode);
 					session.setAttribute("newemail",fa.getEmail());
+					session.setAttribute("newgmailspass",fa.getGmailspass());
 					fa.setCode("sent");
 					return  new ResponseEntity<Firmadmin>(fa,HttpStatus.OK);
 				} 
@@ -291,10 +292,11 @@ return  new ResponseEntity<Firmadmin>(fa,HttpStatus.OK);
 		Respont rs = new Respont();
 		String getcode=(String) session.getAttribute("changecode");
 		String email = (String) session.getAttribute("newemail");
-		
+		String newgmailspass = (String) session.getAttribute("newgmailspass");
 	   if(submitcode.contentEquals(getcode)) {
 	     Firmadmin fd = arr.findAll().get(0);  
 	       fd.setEmail(email);
+	       fd.setGmailspass(newgmailspass);
 	       arr.save(fd);
 		 rs.setDel("successfully changed email");
 		 return  new ResponseEntity<Respont>(rs,HttpStatus.OK);
