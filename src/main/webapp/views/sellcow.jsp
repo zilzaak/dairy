@@ -917,10 +917,8 @@ enter the animal id::<input type="number" ng-model="sanid" />
 <th>index</th>
 <th> animal id</th>
 <th>selling date</th>
-<th>price</th>
-<th>due (taka)</th>
-<th> buyername</th>
-<th> buyer phone</th>
+<th>selling price</th>
+<th>buyer info</th>
 <th>operation</th>
 </tr>
 
@@ -928,7 +926,7 @@ enter the animal id::<input type="number" ng-model="sanid" />
 <td>{{$index+1}}
 </td>
 <td>
-<input type="number" ng-model="x.anid" ng-keyup="checkit($index)" />
+<input type="number"  style="width:80px;" ng-model="x.anid" ng-keyup="checkit($index)" />
 <br/>
 <b style="color:red;word-break:break-all;">{{x.sms}}</b>
 </td>
@@ -946,16 +944,21 @@ enter the animal id::<input type="number" ng-model="sanid" />
 <br/>
 </td>
 
-<td><input type="number" ng-model="x.sellprice" ng-keyup="checkprice($index);"/></td>
+<td>
+<b>selling price(tk)</b> <br/>
+<input type="number" ng-model="x.sellprice" ng-keyup="checkprice($index);"/>
+<br/>
 
-<td><b>(optional)</b><br/>
+<b>due tk(optional)</b><br/>
+
 <input type="number" ng-model="x.due"/></td>
 <td>
 <b>(optional)</b><br/>
-<input type="text" ng-model="x.buyername"/>
-</td>
+<input type="text" ng-model="x.buyername" placeholder="buyer name" />
 
-<td><b>(optional)</b><br/><input type="text" ng-model="x.buyercontact"/></td>
+<br/>
+
+<b>(optional)</b><br/><input type="text" ng-model="x.buyercontact" placeholder="buyer phone" /></td>
 <td>
 
 <button class="btn btn-sm btn-dark" ng-click="deletesell($index);">delete</button>
@@ -1247,3 +1250,4 @@ enter the animal id::<input type="number" ng-model="sanid" />
 </body>
 
 </html>
+
