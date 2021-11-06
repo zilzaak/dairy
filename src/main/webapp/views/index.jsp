@@ -4289,7 +4289,7 @@ day later etc</p>
  <div id="tsm" class="modal fade" role="dialog" >
   <div class="modal-dialog">
        <!-- Modal content-->
-  <div class="modal-content" style="width:500px;font-size:0.80em;">
+  <div class="modal-content" style="width:500px;font-size:0.80em;margin-left:50px;">
   <div class="modal-header" style="background-color:gray;">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
   <h4 class="modal-title">milk sell record</h4>
@@ -4352,7 +4352,7 @@ day later etc</p>
  <div id="cm" class="modal fade" role="dialog" >
   <div class="modal-dialog" style="position:absolute;left:100;">
        <!-- Modal content-->
-  <div class="modal-content" style="width:700px;font-size:0.80em;margin-left:100px;">
+  <div class="modal-content" style="width:700px;font-size:0.80em;margin-left:50px;">
   <div class="modal-header" style="background-color:gray;">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
   <h4 class="modal-title">milk collection record</h4>
@@ -4427,7 +4427,7 @@ day later etc</p>
   <div class="modal-content" style="width:500px;font-size:0.80em;">
   <div class="modal-header" style="background-color:gray;">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
-  <h4 class="modal-title">milk sell record</h4>
+  <h4 class="modal-title">upcomming bearing animal</h4>
   </div>
   <div class="modal-body" style="text-align:center;">
  <table   border="1">
