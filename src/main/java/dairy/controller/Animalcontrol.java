@@ -51,7 +51,9 @@ public ResponseEntity<List<Animal>> addanimal(@RequestBody List<Animal> animalfo
      String emailsms="";
      Firmadmin ad=adr.findAll().get(0);
    for(Animal p:animalform) {
-	   emailsms=emailsms+"animal type:  " +p.getType()+"  price(tk)"+p.getChest()+" "+"  color: "+p.getColor();
+	   emailsms=emailsms+" ,animal type:  " +p.getType()+"  ,price(tk)"+p.getChest()+" "+"  ,color: "+p.getColor()+"  ,source:"
+			   +p.getSource()+"  ,gender: "+p.getGender();
+	   
     p.setCreatedstring(s);
 	p.setCreated(d);
 	p.setSellstatus("notsold");
