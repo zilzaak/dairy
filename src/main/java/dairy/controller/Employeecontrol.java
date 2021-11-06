@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import dairy.model.Firmadmin;
 import dairy.model.Kormi;
+import dairy.repo.Adminrepo;
 import dairy.repo.Employeerepo;
 
 
@@ -25,11 +27,14 @@ import dairy.repo.Employeerepo;
 public class Employeecontrol {
 	@Autowired
 	private Employeerepo err;
+	@Autowired
+	private Adminrepo adr;
 	
 	@PostMapping("/addemp")
 public ResponseEntity<Kormi> addemployee(@RequestBody Kormi emp){
 		boolean ed=false;
 		boolean enid=false;
+		
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			Date d = sdf.parse(emp.getStringjoindate());
@@ -49,10 +54,17 @@ public ResponseEntity<Kormi> addemployee(@RequestBody Kormi emp){
 		}
 		
 		else{
+		
+			Firmadmin ad=adr.findAll().get(0);			
 	String s = Integer.toString((int) emp.getSalary());
 	emp.setStringsalary(s);
 	emp.setActivestatus("active worker");
 		err.save(emp);	
+		String mailsms="you have added new employee as: "+" name:"+
+		emp.getName()+" address:"+emp.getAddress()+" designation:"+
+		emp.getDesignation()+" phone: "+emp.getPhone()+" NID: "+
+		emp.getNid();	
+		new Sendotp().sendotp(mailsms, ad.getEmail(),"new employee reord", ad.getEmail(), ad.getGmailspass());
 		emp.setAddress("successfully added employee");
 		return new  ResponseEntity<Kormi>(emp,HttpStatus.OK);
 		
