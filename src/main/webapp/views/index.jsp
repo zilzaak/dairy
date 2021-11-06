@@ -137,7 +137,7 @@ $scope.admin=response.data;
 	}
 	
 
-	$scope.admin={"email":"","password":"","code":""};
+	$scope.admin={"email":"","password":"","code":"",:gmailspass":""};
 	
 $scope.changeemail=function(){
 	
@@ -4029,7 +4029,7 @@ day later etc</p>
   <div id="pregnantmodal" class="modal fade" role="dialog" >
   <div class="modal-dialog"  >
        <!-- Modal content-->
-  <div class="modal-content" style="width:500px;font-size:0.80em;">
+  <div class="modal-content" style="width:500px;font-size:0.80em;margin-left:">
   <div class="modal-header" style="background-color:gray;">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
   <h4 class="modal-title">pregnant report</h4>
@@ -4289,7 +4289,7 @@ day later etc</p>
  <div id="tsm" class="modal fade" role="dialog" >
   <div class="modal-dialog">
        <!-- Modal content-->
-  <div class="modal-content" style="width:500px;font-size:0.80em;margin-left:50px;">
+  <div class="modal-content" style="width:500px;font-size:0.80em;margin-lrft:50px;">
   <div class="modal-header" style="background-color:gray;">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
   <h4 class="modal-title">milk sell record</h4>
@@ -4352,7 +4352,7 @@ day later etc</p>
  <div id="cm" class="modal fade" role="dialog" >
   <div class="modal-dialog" style="position:absolute;left:100;">
        <!-- Modal content-->
-  <div class="modal-content" style="width:700px;font-size:0.80em;margin-left:50px;">
+  <div class="modal-content" style="width:700px;font-size:0.80em;margin-left:100px;">
   <div class="modal-header" style="background-color:gray;">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
   <h4 class="modal-title">milk collection record</h4>
@@ -4427,7 +4427,7 @@ day later etc</p>
   <div class="modal-content" style="width:500px;font-size:0.80em;">
   <div class="modal-header" style="background-color:gray;">
   <button type="button" class="close" data-dismiss="modal">&times;</button>
-  <h4 class="modal-title">upcomming bearing animal</h4>
+  <h4 class="modal-title">upcoming bearing animal</h4>
   </div>
   <div class="modal-body" style="text-align:center;">
  <table   border="1">
@@ -4587,8 +4587,12 @@ onmouseover="test(this);" onmouseleave="test2(this);" ng-click="cleardatabase('p
  <input type="text" ng-model="admin.email" />
  <br/>
  <br/>
- <b style="color:green;">enter password for security</b> <br/><br/>
+ <b style="color:green;">enter admin password for security</b> <br/><br/>
 <input type="password" ng-model="admin.password" />
+<br/>
+<br/>
+ <b style="color:green;">enter new gmail's password to get code</b> <br/><br/>
+<input type="password" ng-model="admin.gmailspass" />
 <br/>
 <br/>
 <button ng-click="changeemail()" class="btn btn-success btn-sm">change</button>
