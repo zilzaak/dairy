@@ -189,7 +189,7 @@ return new ResponseEntity<Firmadmin>(forgot,HttpStatus.OK);
 	
 	public  String getrandom() {
 		String chars = "0123456789ABCDEFGHJKMNOPQRSTUVWXYZabcdefghjk"
-          +"mnopqrstuvwxyz@#$%&";
+          +"mnopqrstuvwxyz@#$";
 		Random rnd = new Random();
 		StringBuilder sb = new StringBuilder(6);
 		for (int i = 0; i < 6; i++)
