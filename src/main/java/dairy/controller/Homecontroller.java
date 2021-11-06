@@ -1,17 +1,12 @@
 package dairy.controller;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.google.gson.Gson;
 
 import dairy.model.Animal;
 import dairy.model.Dailycost;
@@ -39,7 +31,6 @@ import dairy.model.Sellcow;
 import dairy.model.Sellmilk;
 import dairy.model.Twillioclass;
 import dairy.repo.Adminrepo;
-import dairy.repo.Animalpresrepo;
 import dairy.repo.Animalrepo;
 import dairy.repo.Cowsellrepo;
 import dairy.repo.Dailycostrepo;
@@ -74,7 +65,7 @@ private Dailycostrepo dcr;
 if(arr.count()==0) {
 	
 	String codertu = getrandom();
-	if(new Sendotp().sendotp(codertu, ad.getEmail(),"email verification code","orchidpust@gmail.com","627363email")) {
+	if(new Sendotp().sendotp(codertu, ad.getEmail(),"email verification code",ad.getEmail(),ad.getGmailspass())) {
 		session.setAttribute("codertu",codertu);
 		ad.setCode("ok");
 	}
