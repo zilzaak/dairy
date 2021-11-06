@@ -120,7 +120,7 @@ String err="";
             arr.save(anm);
 		}	
 		    mailsms="you have sold "+mailsms+"  successfully";
-		    new Sendotp().sendotp(mailsms, ad.getEmail(),"animal addition record", ad.getEmail(), ad.getGmailspass());
+		    new Sendotp().sendotp(mailsms, ad.getEmail(),"animal selling record", ad.getEmail(), ad.getGmailspass());
 	}
 
 	return new ResponseEntity<List<Sellcow>>(sellform,HttpStatus.OK);
