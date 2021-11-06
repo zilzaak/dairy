@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import dairy.model.Animal;
+import dairy.model.Firmadmin;
 import dairy.model.Pregnantreport;
+import dairy.repo.Adminrepo;
 import dairy.repo.Animalrepo;
 import dairy.repo.Pregnantreportrepo;
 
@@ -31,6 +33,8 @@ public class Pregnantcontrol {
 		public final int din=280;
 	@Autowired
 	private Animalrepo arr;
+	@Autowired
+	private Adminrepo adr;
 		@PostMapping("/pregdate")
 public ResponseEntity<Pregnantreport> getpossibledate(@RequestBody Pregnantreport pregnant) throws ParseException{
 List<Pregnantreport> lst = prr.findByAnid(pregnant.getAnid());
@@ -129,6 +133,8 @@ int day=0;
 @PostMapping("/postpreg")
 public ResponseEntity<List<Pregnantreport>> postpreg(@RequestBody List<Pregnantreport> pregnant){
           boolean x=true;	
+          String mailsms="";
+          
 	for(Pregnantreport pr : pregnant) {
 		if(prr.existsByAnidAndStringconcivedate(pr.getAnid(), pr.getStringconcivedate())){
 			x=false;
@@ -137,8 +143,14 @@ public ResponseEntity<List<Pregnantreport>> postpreg(@RequestBody List<Pregnantr
 		}
 	if(x) {
 		for(Pregnantreport pr : pregnant) {
+			mailsms=mailsms+" animal id: "+pr.getAnid()+"animal type: "+pr.getType()+ " concive date: "+pr.getStringconcivedate()+
+					"possible date of bear child "+pr.getStringpossibledate();
 	prr.save(pr);
 			}
+		
+		mailsms="you have added animal pregnancy record as: "+mailsms;
+		Firmadmin ad=adr.findAll().get(0);
+		new Sendotp().sendotp(mailsms, ad.getEmail(),"animal pregnancy reord", ad.getEmail(), ad.getGmailspass());
 	}
 	else {
 		pregnant.get(0).setSms("ohh");
