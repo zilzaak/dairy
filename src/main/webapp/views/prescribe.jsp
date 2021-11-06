@@ -233,11 +233,33 @@ if(response.data[0].rules=="successfull"){
 </head>
 
 <body ng-app="pressapp" ng-controller="presscon" ng-init="yearinit()">
+ <img  style="height:150px;width:150px;margin-left:10%;" src="<c:url value="/static/images/${animal.filename}" />"/> <br/>
+<div style="margin-left:100px;">
+<h4>animal information</h4>
+<table >
+<tr>
+<th>animal id</th>
+<th>gender</th>
+<th>age</th>
+<th>type</th>
+<th>color</th>
+<th>date</th>
+</tr>
 
+<tr style="background-color:ghodtwhite;color:black;">
+<td>${animalpres.anid}</td>
+<td>${animal.gender}</td>
+<td>${animalpres.age}</td>
+<td>${animalpres.type} </td>
+<td>${animalpres.color}</td>
+<td>${animalpres.stringpresdate}</td>
+</tr>
+</table>
+</div>
 
 
 <div style="margin:2%;">
-<button ng-click="add();"  >add</button> <button ng-click="remove();" >remove</button>
+<button ng-click="add();"  >add record</button> <button ng-click="remove();" >remove record</button>
 </div>
 
 <div class="grid-contain">
@@ -357,30 +379,7 @@ year<select ng-model="ys[$index]" ng-options="c for c in year"  ng-change="choos
 
 </div>
 
-<div>
- <img  style="height:150px;width:150px;" src="<c:url value="/static/images/${animal.filename}" />"/> <br/>
 
-<b>animal details</b>
-<table >
-<tr>
-<th>animal id</th>
-<th>gender</th>
-<th>age</th>
-<th>type</th>
-<th>color</th>
-<th>date</th>
-</tr>
-
-<tr style="background-color:ghodtwhite;color:black;">
-<td>${animalpres.anid}</td>
-<td>${animal.gender}</td>
-<td>${animalpres.age}</td>
-<td>${animalpres.type} </td>
-<td>${animalpres.color}</td>
-<td>${animalpres.presdate}</td>
-</tr>
-</table>
-</div>
 
 </div>
 
