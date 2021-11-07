@@ -23,9 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import dairy.model.Animal;
 import dairy.model.Firmadmin;
 import dairy.model.Sellcow;
+import dairy.model.Twillioclass;
 import dairy.repo.Adminrepo;
 import dairy.repo.Animalrepo;
 import dairy.repo.Cowsellrepo;
+import dairy.repo.Twiliorepo;
+import dairy.service.TwillioService;
 
 @Controller
 @RequestMapping("/cowsell")
@@ -36,6 +39,10 @@ private Cowsellrepo srr;
 private Animalrepo arr;
 @Autowired
 private Adminrepo adr;
+@Autowired
+TwillioService twillioService;
+@Autowired
+private Twiliorepo trr;
 
 @PostMapping("/existbyanid")
 	public ResponseEntity<List<Sellcow>> existsByAnid(@RequestBody int anid) {
@@ -110,6 +117,7 @@ String err="";
 		    System.out.println("there is no date err or errsms"+dateerr+"  "+errsms);
 		    String mailsms="";
 		    Firmadmin ad=adr.findAll().get(0);
+		 	List<Twillioclass> tls= trr.findByActive("active");
 		    for(Sellcow sell : sellform) {
 		    	mailsms=mailsms+" animal id: "+sell.getAnid()+" selling price(tk): "+sell.getSellprice()+" due tk:: "+sell.getDue()+" buyer name: "+
 		    sell.getBuyercontact()+" phone no: "+sell.getBuyercontact();
@@ -121,6 +129,12 @@ String err="";
 		}	
 		    mailsms="you have sold "+mailsms+"  successfully";
 		    new Sendotp().sendotp(mailsms, ad.getEmail(),"animal selling record", ad.getEmail(), ad.getGmailspass());
+			  for(Twillioclass t:tls) {
+		twillioService.sendSms(t.getTomy(),t.getFromtwilio(),mailsms,t.getSid(),t.getAuthtoken() );
+			
+							
+			   }   
+		    
 	}
 
 	return new ResponseEntity<List<Sellcow>>(sellform,HttpStatus.OK);
@@ -176,9 +190,7 @@ srr.save(v);
 		System.out.println(dt[1]);
 		System.out.println(dt[1]);
 		List<Sellcow> lst=srr.findBySelldateBetweenOrderBySelldateDesc(d1, d2);
-		System.out.println("okkkkkkkkkkkkkkkkkkkkkk"+d1+"      "+d2);
-		System.out.println("okkkkkkkkkkkkkkkkkkkkkk"+d1+"      "+d2);
-		System.out.println("okkkkkkkkkkkkkkkkkkkkkk"+d1+"      "+d2);
+	
 		return new ResponseEntity<List<Sellcow>>(lst,HttpStatus.OK);
 		
 	                                                             }
