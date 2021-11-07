@@ -54,7 +54,7 @@ private Dailycostrepo dcr;
 
 	@RequestMapping("/")
 	public String admin() {
-		arr.deleteAll();
+	
 	return "register";
 	
 	}
