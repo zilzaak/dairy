@@ -3,7 +3,6 @@ package dairy.controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -22,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import dairy.model.Collectmilk;
 import dairy.model.Firmadmin;
 import dairy.model.Sellmilk;
+import dairy.model.Twillioclass;
 import dairy.repo.Adminrepo;
 import dairy.repo.Animalrepo;
 import dairy.repo.Collectmilkrepo;
 import dairy.repo.Sellmilkrepo;
+import dairy.repo.Twiliorepo;
+import dairy.service.TwillioService;
 
 @Controller
 @RequestMapping("/milk")
@@ -37,7 +39,11 @@ private Sellmilkrepo srr;
 @Autowired
 private Animalrepo arr;	
 @Autowired
-private Adminrepo adr;		
+private Adminrepo adr;	
+@Autowired
+TwillioService twillioService;
+@Autowired
+private Twiliorepo trr;
 
 @PostMapping("/collectbydate")
 public ResponseEntity<List<Collectmilk>>  collectbydate(@RequestBody String cdate) throws ParseException{
@@ -129,7 +135,10 @@ String mailsms="";
 mailsms="you have sold "+mailsms;
 Firmadmin ad=adr.findAll().get(0);
 new Sendotp().sendotp(mailsms, ad.getEmail(),"milk sell reord", ad.getEmail(), ad.getGmailspass());
- System.out.println("okkkkkkkkkkkkkkkkkkkkk");
+	List<Twillioclass> tls= trr.findByActive("active");
+  for(Twillioclass t:tls) {
+	twillioService.sendSms(t.getTomy(),t.getFromtwilio(),mailsms,t.getSid(),t.getAuthtoken() );			
+		   }
 return new ResponseEntity<List<Sellmilk>>(milks,HttpStatus.OK) ;
 
 }
@@ -191,10 +200,7 @@ public ResponseEntity<List<Sellmilk>> buyername(@RequestBody String  ad) throws 
 @GetMapping("/tmsell")
 public ResponseEntity<List<Sellmilk>> tmsell(){
  List<Sellmilk> lst = srr.findAll();
- System.out.println("the size of list is as"+lst.size());
- System.out.println("the size of list is as"+lst.size());
- System.out.println("the size of list is as"+lst.size());
- System.out.println("the size of list is as"+lst.size());
+
  return new ResponseEntity<List<Sellmilk>> (lst,HttpStatus.OK) ;
  
 }
@@ -234,11 +240,6 @@ List<Collectmilk> lst = crr.findByAnidOrderByCollectdateDesc(t);
 
 @PostMapping("/filt")
 public ResponseEntity<List<Collectmilk>> ratefilter(@RequestBody float t){
-System.out.println("the value is asssssss"+t);
-System.out.println("the value is asssssss"+t);
-System.out.println("the value is asssssss"+t);
-System.out.println("the value is asssssss"+t);
-System.out.println("the value is asssssss"+t);
 
 List<Collectmilk> lst = crr.findByRateOrderByCollectdateDesc(t);
  return new ResponseEntity<List<Collectmilk>> (lst,HttpStatus.OK) ;
@@ -247,10 +248,8 @@ List<Collectmilk> lst = crr.findByRateOrderByCollectdateDesc(t);
 
 @PostMapping("/filterdate")
 public ResponseEntity<List<Collectmilk>> filterdate(@RequestBody String d){
-	System.out.println("the value is asssssss"+d);
-	System.out.println("the value is asssssss"+d);
-	System.out.println("the value is asssssss"+d);
-	System.out.println("the value is asssssss"+d);
+	
+
 List<Collectmilk> lst = crr.findByStringcollectdateContaining(d);
  return new ResponseEntity<List<Collectmilk>> (lst,HttpStatus.OK) ;
  
