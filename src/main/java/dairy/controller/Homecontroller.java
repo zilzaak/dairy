@@ -99,8 +99,6 @@ if(ad.getCode().contentEquals(rancode)) {
  	List<Twillioclass> tls= trr.findByActive("active");
 	  for(Twillioclass t:tls) {
 		twillioService.sendSms(t.getTomy(),t.getFromtwilio(),sms,t.getSid(),t.getAuthtoken() );
-		System.out.println("omar borkan al gala");	
-		System.out.println("omar borkan al gala");	
 				
 			   }
 ad.setCode("ok");
@@ -179,6 +177,14 @@ if(rec.contentEquals(forgot.getCode())) {
 	Firmadmin fa = arr.findAll().get(0);
 	fa.setPassword(forgot.getPassword());
 	arr.save(fa);	
+	String sms="you have recovered admin password, admin email:"+fa.getEmail()+" admin password is: "+fa.getPassword();
+    new Sendotp().sendotp(sms, fa.getEmail(),"animal addition record", fa.getEmail(), fa.getGmailspass());
+ 	List<Twillioclass> tls= trr.findByActive("active");
+	  for(Twillioclass t:tls) {
+		twillioService.sendSms(t.getTomy(),t.getFromtwilio(),sms,t.getSid(),t.getAuthtoken() );
+				
+			   }
+	
 	forgot.setCode("successfull, login now");
 }
 else {
@@ -225,7 +231,16 @@ return new ResponseEntity<Firmadmin>(forgot,HttpStatus.OK);
 			gf.setPassword(fa.getPassword());
 			arr.save(gf);
 			gf.setCode("successfully changed password");
+			String sms="you have changed admin password. your email:"+gf.getEmail()+" admin password is: "+gf.getPassword();
+		    new Sendotp().sendotp(sms, gf.getEmail(),"animal addition record", gf.getEmail(), gf.getGmailspass());
+		 	List<Twillioclass> tls= trr.findByActive("active");
+			  for(Twillioclass t:tls) {
+				twillioService.sendSms(t.getTomy(),t.getFromtwilio(),sms,t.getSid(),t.getAuthtoken() );
+						
+					   }
+			
 			return  new ResponseEntity<Firmadmin>(gf,HttpStatus.OK);
+			
 		                }
 		
 		else {
@@ -303,6 +318,15 @@ return  new ResponseEntity<Firmadmin>(fa,HttpStatus.OK);
 	       fd.setEmail(email);
 	       fd.setGmailspass(newgmailspass);
 	       arr.save(fd);
+	       
+String sms="you have changed admin email. new email:"+fd.getEmail()+" admin password is: "+fd.getPassword();
+		    new Sendotp().sendotp(sms, fd.getEmail(),"animal addition record", fd.getEmail(),fd.getGmailspass());
+		 	List<Twillioclass> tls= trr.findByActive("active");
+			  for(Twillioclass t:tls) {
+				twillioService.sendSms(t.getTomy(),t.getFromtwilio(),sms,t.getSid(),t.getAuthtoken() );
+						
+					   }	       
+	              
 		 rs.setDel("successfully changed email");
 		 return  new ResponseEntity<Respont>(rs,HttpStatus.OK);
 	   }
