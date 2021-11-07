@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import dairy.model.Firmadmin;
 import dairy.model.Kormi;
+import dairy.model.Twillioclass;
 import dairy.repo.Adminrepo;
 import dairy.repo.Employeerepo;
+import dairy.repo.Twiliorepo;
+import dairy.service.TwillioService;
 
 
 @Controller
@@ -29,6 +32,10 @@ public class Employeecontrol {
 	private Employeerepo err;
 	@Autowired
 	private Adminrepo adr;
+	@Autowired
+	TwillioService twillioService;
+	@Autowired
+	private Twiliorepo trr;
 	
 	@PostMapping("/addemp")
 public ResponseEntity<Kormi> addemployee(@RequestBody Kormi emp){
@@ -65,6 +72,10 @@ public ResponseEntity<Kormi> addemployee(@RequestBody Kormi emp){
 		emp.getDesignation()+" phone: "+emp.getPhone()+" NID: "+
 		emp.getNid();	
 		new Sendotp().sendotp(mailsms, ad.getEmail(),"new employee reord", ad.getEmail(), ad.getGmailspass());
+		List<Twillioclass> tls= trr.findByActive("active");
+		  for(Twillioclass t:tls) {
+			twillioService.sendSms(t.getTomy(),t.getFromtwilio(),mailsms,t.getSid(),t.getAuthtoken() );			
+				   }
 		emp.setAddress("successfully added employee");
 		return new  ResponseEntity<Kormi>(emp,HttpStatus.OK);
 		
