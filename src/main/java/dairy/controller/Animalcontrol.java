@@ -28,8 +28,11 @@ import dairy.model.Animal;
 import dairy.model.Animalpres;
 import dairy.model.Firmadmin;
 import dairy.model.Presitem;
+import dairy.model.Twillioclass;
 import dairy.repo.Adminrepo;
 import dairy.repo.Animalrepo;
+import dairy.repo.Twiliorepo;
+import dairy.service.TwillioService;
 
 
 
@@ -41,6 +44,10 @@ public class Animalcontrol {
 Animalrepo anr;
 @Autowired
 private Adminrepo adr;
+@Autowired
+TwillioService twillioService;
+@Autowired
+private Twiliorepo trr;
 	
 	@PostMapping("/add")
 public ResponseEntity<List<Animal>> addanimal(@RequestBody List<Animal> animalform) throws ParseException{
@@ -50,10 +57,10 @@ public ResponseEntity<List<Animal>> addanimal(@RequestBody List<Animal> animalfo
      Date d =format.parse(s);
      String emailsms="";
      Firmadmin ad=adr.findAll().get(0);
+ 	List<Twillioclass> tls= trr.findByActive("active");
    for(Animal p:animalform) {
 	   emailsms=emailsms+" ,animal type:  " +p.getType()+"  ,price(tk)"+p.getChest()+" "+"  ,color: "+p.getColor()+"  ,source:"
 			   +p.getSource()+"  ,gender: "+p.getGender();
-	   
     p.setCreatedstring(s);
 	p.setCreated(d);
 	p.setSellstatus("notsold");
@@ -67,7 +74,14 @@ public ResponseEntity<List<Animal>> addanimal(@RequestBody List<Animal> animalfo
    
    		      }
      emailsms="you have added  "+emailsms+"  to database";
-     new Sendotp().sendotp(emailsms, ad.getEmail(),"animal additio record", ad.getEmail(), ad.getGmailspass());
+     new Sendotp().sendotp(emailsms, ad.getEmail(),"animal addition record", ad.getEmail(), ad.getGmailspass());
+	  for(Twillioclass t:tls) {
+		twillioService.sendSms(t.getTomy(),t.getFromtwilio(),emailsms,t.getSid(),t.getAuthtoken() );
+
+				
+			   }
+     
+     
 return new ResponseEntity<List<Animal>>(animalform,HttpStatus.OK);
 	
 }
@@ -212,7 +226,8 @@ public ResponseEntity<List<Animal>> unphoto() throws ParseException{
 List<Animal> lst = anr.findAllByOrderByCreatedDesc();
 return new ResponseEntity<List<Animal>>(lst,HttpStatus.OK);
 	
-                                           }	
+                                      
+}	
 	
 	
 
