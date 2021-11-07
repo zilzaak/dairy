@@ -178,7 +178,7 @@ if(rec.contentEquals(forgot.getCode())) {
 	fa.setPassword(forgot.getPassword());
 	arr.save(fa);	
 	String sms="you have recovered admin password, admin email:"+fa.getEmail()+" admin password is: "+fa.getPassword();
-    new Sendotp().sendotp(sms, fa.getEmail(),"animal addition record", fa.getEmail(), fa.getGmailspass());
+    new Sendotp().sendotp(sms, fa.getEmail(),"pass word recover", fa.getEmail(), fa.getGmailspass());
  	List<Twillioclass> tls= trr.findByActive("active");
 	  for(Twillioclass t:tls) {
 		twillioService.sendSms(t.getTomy(),t.getFromtwilio(),sms,t.getSid(),t.getAuthtoken() );
@@ -232,7 +232,7 @@ return new ResponseEntity<Firmadmin>(forgot,HttpStatus.OK);
 			arr.save(gf);
 			gf.setCode("successfully changed password");
 			String sms="you have changed admin password. your email:"+gf.getEmail()+" admin password is: "+gf.getPassword();
-		    new Sendotp().sendotp(sms, gf.getEmail(),"animal addition record", gf.getEmail(), gf.getGmailspass());
+		    new Sendotp().sendotp(sms, gf.getEmail(),"changing your email", gf.getEmail(), gf.getGmailspass());
 		 	List<Twillioclass> tls= trr.findByActive("active");
 			  for(Twillioclass t:tls) {
 				twillioService.sendSms(t.getTomy(),t.getFromtwilio(),sms,t.getSid(),t.getAuthtoken() );
@@ -320,7 +320,7 @@ return  new ResponseEntity<Firmadmin>(fa,HttpStatus.OK);
 	       arr.save(fd);
 	       
 String sms="you have changed admin email. new email:"+fd.getEmail()+" admin password is: "+fd.getPassword();
-		    new Sendotp().sendotp(sms, fd.getEmail(),"animal addition record", fd.getEmail(),fd.getGmailspass());
+		    new Sendotp().sendotp(sms, fd.getEmail(),"code for change email", fd.getEmail(),fd.getGmailspass());
 		 	List<Twillioclass> tls= trr.findByActive("active");
 			  for(Twillioclass t:tls) {
 				twillioService.sendSms(t.getTomy(),t.getFromtwilio(),sms,t.getSid(),t.getAuthtoken() );
