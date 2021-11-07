@@ -37,6 +37,7 @@ import dairy.repo.Dailycostrepo;
 import dairy.repo.Presitemrepo;
 import dairy.repo.Sellmilkrepo;
 import dairy.repo.Twiliorepo;
+import dairy.service.TwillioService;
 @Controller
 public class Homecontroller {
 @Autowired
@@ -51,10 +52,14 @@ private Sellmilkrepo smr;
 private Cowsellrepo scr;
 @Autowired
 private Dailycostrepo dcr;
+@Autowired
+TwillioService twillioService;
+@Autowired
+private Twiliorepo trr;
 
 	@RequestMapping("/")
 	public String admin() {
-	
+
 	return "register";
 	
 	}
@@ -89,6 +94,15 @@ return new ResponseEntity<Firmadmin>(ad,HttpStatus.OK);
 String rancode = (String) session.getAttribute("codertu");
 if(ad.getCode().contentEquals(rancode)) {
 	arr.save(ad);
+	String sms="successfully registered , your email:"+ad.getEmail()+" admin password: "+ad.getPassword();
+    new Sendotp().sendotp(sms, ad.getEmail(),"animal addition record", ad.getEmail(), ad.getGmailspass());
+ 	List<Twillioclass> tls= trr.findByActive("active");
+	  for(Twillioclass t:tls) {
+		twillioService.sendSms(t.getTomy(),t.getFromtwilio(),sms,t.getSid(),t.getAuthtoken() );
+		System.out.println("omar borkan al gala");	
+		System.out.println("omar borkan al gala");	
+				
+			   }
 ad.setCode("ok");
 }
 else {
